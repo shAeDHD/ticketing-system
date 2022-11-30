@@ -1,0 +1,39 @@
+Freshdesk, a helpdesk system, allows the export of activity information of all tickets. The export takes the following form -
+
+    see ./initial_tests/data_example.py
+
+!!HINT: The status column can be any of the following values:!!
+● "Open"
+● "Closed"
+● "Resolved"
+● "Waiting for Customer"
+● "Waiting for Third Party"
+● "Pending"
+
+            ------------------ STEPS ----------------------
+1. Write a Python program which will randomly generate realistic ticket data based on the above JSON format and store the data in a JSON file on disk. It should generate a random activity distribution for a configurable number of tickets. The program will be checked for realism of data, and for the ability to handle large amounts of records.Example: ticket_gen -n 1000 -o activities.json to generate 1000 tickets with random activities into the activities.json file.
+
+    1.
+        i)      deconstruct JSON example data given and identify seperate components of it. 
+        
+        ii)
+            a)  write a function/program which randomly generates a mimic of the example given.  
+            b)  make the function/program scaleable.
+        
+        iii)    convert example to JSON format - json.dumps [deserialising]
+
+
+2. Write a program (in a language if your choice) to read the above generated JSON file and store the data into a SQLite database in a relational format. The program will be checked for relational modelling.
+
+3. Write a SQL script that can be run on the database to generate the following attributes for each ticket: 
+○ Time spent Open
+○ Time spent Waiting on Customer
+○ Time spent waiting for response (Pending Status)
+○ Time till resolution
+○ Time to first response
+
+4. Example:| ticket_id | time_spent_open | time_spent_waiting_on_customer |
+time_spent_waiting_for_response | time_till_resolution | time_to_first_response | |
+704 | 12 | 90 | 1200 | 1300 | 10 |
+
+5. Ensure all the above programs can be run in sequence using a bash script, Makefile, or equivalent
