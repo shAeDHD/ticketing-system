@@ -2,32 +2,22 @@ import datetime
 from datetime import timedelta
 import random 
 
-# random.randint(0,5)
+######################## TEST ##############################
+start_date  = datetime.datetime.now()
+end_date    = start_date + timedelta(days=random.randint(1,3))
 
-start_date = datetime.datetime.now() 
-start_at = start_date - timedelta(days=random.randint(0,5))
+print(start_date)
+print(end_date)
+############################################################
+   
+# DECONSTRUCTING DATA EXAMPLE
 
-print(start_at)
+#   metadata:
+#       "start_at"          = datetime.datetime.now()   # when ticket begins being created by user
+#       "end_at"            = datetime.datetime.now()   # when ticket is formally completed by user
+#       "activites_count"   = len(activities_data)      # total amount of activites taken 
+#                                                       by user in the creation of their ticket
 
-# end_date = start_date + timedelta(days=10)
-
-
-
-
-# random_date = start_date + (end_date - start_date) * random.random()
-# print(random_date)
-
-
-# # First - Generate "metadata" information
-
-
-# def generate_metadata_dates():
-#     start_date = random_date
-#     end_date = start_date + timedelta(days=2)
-    
-#     return { start_date, end_date }
-
-# print( generate_metadata_dates())    
-    
-    
-
+#   activities_data: [
+#       {
+#           "performed_at"  = 
