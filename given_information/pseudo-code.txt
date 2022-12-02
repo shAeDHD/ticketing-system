@@ -1,4 +1,4 @@
-Freshdesk, a helpdesk system, allows the export of activity information of all tickets. The export takes the following form -
+Freshdesk, a helpdesk system, allows the export of activity information of all tickets. The tickets can be requested to look similar to the following form -
 
     see ./initial_tests/data_example.py
 
@@ -12,16 +12,6 @@ Freshdesk, a helpdesk system, allows the export of activity information of all t
 
             ------------------ STEPS ----------------------
 1. Write a Python program which will randomly generate realistic ticket data based on the above JSON format and store the data in a JSON file on disk. It should generate a random activity distribution for a configurable number of tickets. The program will be checked for realism of data, and for the ability to handle large amounts of records.Example: ticket_gen -n 1000 -o activities.json to generate 1000 tickets with random activities into the activities.json file.
-
-    1.
-        i)      deconstruct JSON example data given and identify seperate components of it. 
-        
-        ii)
-            a)  write a function/program which randomly generates a mimic of the example given.  
-            b)  make the function/program scaleable.
-        
-        iii)    convert example to JSON format - json.dumps [deserialising]
-
 
 2. Write a program (in a language if your choice) to read the above generated JSON file and store the data into a SQLite database in a relational format. The program will be checked for relational modelling.
 

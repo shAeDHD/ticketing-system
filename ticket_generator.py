@@ -6,7 +6,7 @@ import random
 import json
 
 tickets = [ ]
-
+requested_number = input("How many tickets? ")
 
 def generate_tickets( number_of_tickets ): 
     
@@ -63,13 +63,13 @@ def generate_tickets( number_of_tickets ):
         group = [ "Refund", "Replacement", "Reparation" ]
         # Status values given from docs and random selection
         status_options = [ 
-                "Open",
-                "Close",
-                "Resolved",
-                "Waiting for Customer",
-                "Waiting for Third Party",
-                "Pending"  
-                ]
+            "Open",
+            "Close",
+            "Resolved",
+            "Waiting for Customer",
+            "Waiting for Third Party",
+            "Pending"  
+        ]
         status_value = status_options[ random.randint( 0, (len(status_options)-1) ) ]
         # Example Categories and iteration selection        
         category = [ "phone", "laptop", "pc", "other" ] 
@@ -82,6 +82,7 @@ def generate_tickets( number_of_tickets ):
             "other" : [ "Accessories", "Office Utilities" ]
         }
         product_value = products[category_value][random.randint( 0,( len( products[category_value] ) -1 ) )]
+        
         # Generation of iterations activity type
         if activity_type == "Other / Message":
             return {
@@ -92,7 +93,7 @@ def generate_tickets( number_of_tickets ):
             }
         else:
             return {
-                "shipping_address": f'{real_random_address()}',
+                "shipping_address": real_random_address(),
                 "shipment_date": f'{shipment_date_value}',
                 "category" : category_value,
                 "contacted_customer" : contacted_customer_value,
@@ -104,7 +105,8 @@ def generate_tickets( number_of_tickets ):
                 "agent_id" : performer_id_value,
                 "requester" : requester_value,
                 "product" : product_value
-            }    
+            }
+                
     activity_value = generate_random_activity( activity_commencement_date )
     
     iteration = 1
@@ -133,9 +135,9 @@ def generate_tickets( number_of_tickets ):
             
             tickets.append(activities_data)
 
-
+# tickets_requested = input()
 # NOTE -> To change the amount of tickets generated, change
 #        the integer argument of generate_tickets() on line 137.
-tickets.insert( 0, generate_tickets( 1000 ) ) 
+tickets.insert( 0, generate_tickets( int(requested_number) ) ) 
 
 print(json.dumps(tickets, sort_keys=True, indent=4) )     #   check == true
