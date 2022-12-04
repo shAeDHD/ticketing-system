@@ -3,8 +3,7 @@ import datetime
 from datetime import timezone, timedelta
 import random 
 import json
-
-requested_number = input("Input required ticket amount: ")
+import argparse
 
 tickets     = []
 end_date    = datetime.datetime.now( timezone.utc ).replace(microsecond=0)
@@ -83,5 +82,12 @@ def generate_tickets( number_of_tickets ):
         tickets.append(activities_data)
         iteration = iteration + 1
         
-generate_tickets( int(requested_number) )
-print(json.dumps(tickets, sort_keys=False, indent=4) ) 
+# generate_tickets( int(input()) )
+# print(json.dumps(generate_tickets( int(input()) ), sort_keys=False, indent=4) ) 
+
+parser = argparse.ArgumentParser('Ticket Generator')
+parser.add_argument('constructor', metavar='N', help='A given integer will generate that many Tickets', type=int )
+# parser.add_argument('--')
+args = parser.parse_args()
+print(generate_tickets( args.constructor ) )
+# print( args.constructor + json.dumps(generate_tickets( args._get_args ), sort_keys=False, indent=4) )
