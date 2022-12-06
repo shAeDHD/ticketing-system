@@ -31,7 +31,6 @@ products            = {
 }
 determined_category = random.choice(category)
 
-
 #       FUNCTIONS       #
 #   Randomised Logic to determine activity status utilising previous generated ticket 
 def determine_status():    
@@ -96,35 +95,48 @@ def generate_activities():
         }
 #   Ticket Constructor    
 def generate_tickets( number_of_tickets ): 
-    for iteration in range(number_of_tickets):
-        global ticket_id 
-        ticket_id += 1
-        global note_id
-        note_id += 1
-        if len(activites_data) == 0 or ticket_closed:  
-            ticket_data = {
-                "performed_at": f'{new_ticket_start_date()}',
-                "ticket_id": ticket_id,
-                "performer_type" : "user",
-                "performer_id" : performer_id,
-                "activity" : {
-                    "note" : {
-                        "id" : note_id,
-                        "type" : random.randint(1, 4),
-                    },
+    if len(activites_data) < number_of_tickets:
+        for iteration in range(number_of_tickets):
+            global ticket_id 
+            ticket_id += 1
+            global note_id
+            note_id += 1
+            if len(activites_data) == 0 or ticket_closed:  
+                ticket_data = {
+                    "performed_at": f'{new_ticket_start_date()}',
+                    "ticket_id": ticket_id,
+                    "performer_type" : "user",
+                    "performer_id" : performer_id,
+                    "activity" : {
+                        "note" : {
+                            "id" : note_id,
+                            "type" : random.randint(1, 4),
+                        },
+                    }
+                }        
+                activites_data.append(ticket_data)
+            else:
+                ticket_data = {
+                    "performed_at": determine_response_time(),
+                    "ticket_id": ticket_id,
+                    "performer_type" : "user",
+                    "performer_id" : performer_id,
+                    "activity" : generate_activities( )
+
                 }
-            }        
-            activites_data.append(ticket_data)
-        else:
-            ticket_data = {
-                "performed_at": determine_response_time(),
-                "ticket_id": ticket_id,
-                "performer_type" : "user",
-                "performer_id" : performer_id,
-                "activity" : generate_activities( )
-
-            }
-            activites_data.append(ticket_data)
-
+                activites_data.append(ticket_data)
+    generate_JSON_file( activites_data )
+#   Export tickets as JSON data into file       
+def generate_JSON_file( generated_tickets ):
+    try:    
+        json_data = json.dumps( generated_tickets )
+        with open('json_ticket_data.json', 'w', encoding = 'utf-8') as outfile:
+            outfile.write( json_data ) 
+        print('Tickets have been created in the json_ticket_data.json file.')
+    finally:
+        outfile.close
+          
 generate_tickets( int(input('Please input desired number of tickets: ')) )
-print(json.dumps( activites_data, indent=4 ))
+# NOTE if you wish to view the generated 
+# data in the console, uncomment the line below (line 142)
+# print( json.dumps( activites_data, indent=4 ))
