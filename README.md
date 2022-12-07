@@ -50,7 +50,9 @@ To download the lovely package: [random-address 1.1.1](https://pypi.org/project/
 Then we're good to go!
 
 ## Using the Ticket Generator
-With everything installed, and the git files on your computer, run
+With everything installed, and the git files on your computer, first cd into the ticket_generator file 
+  `$  cd ticket_generator`
+Then run the program 
   `$  python3 ticket_generator.py`
 
 You will be prompted to enter an integer of how many tickets you wish to create and then once the program has completed it will export a file to the home folder called 'json_ticket_data.json' with the requested ticket data. 
