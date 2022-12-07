@@ -1,7 +1,12 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+
+# generated_tickets = File.read(~/Users/shaeriches/coding-stuff/tech-challenges/aginic/ticket_generator/json_ticket_data.json)
+# JSON.parse( generated_tickets ).each do | json_ticket |
+#     Ticket.create!(json_ticket)
+# end
+
+
+generated_tickets = File.read("C:/Users/shaeriches/coding-stuff/tech-challenges/aginic/ticket_generator/json_ticket_data.json")
+
+JSON.parse( generated_tickets ).each do | json_ticket |
+    Ticket.create!(json_ticket)
+end

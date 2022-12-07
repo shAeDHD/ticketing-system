@@ -32,7 +32,17 @@
             "performer_id": 149018,
             "activity": 
             {
-                "shipping_address": "N/A",
+                "shipping_address": {
+                    "address1": "1263 Evarts Street Northeast",
+                    "address2": "",
+                    "city": "Washington",
+                    "state": "DC",
+                    "postalCode": "20018",
+                    "coordinates": {
+                        "lat": 38.924278,
+                        "lng": -76.988248
+                    }
+                },
                 "shipment_date": "21 Apr, 2017",
                 "category": "Phone",
                 "contacted_customer": true,
