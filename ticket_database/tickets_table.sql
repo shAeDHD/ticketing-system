@@ -1,5 +1,0 @@
-CREATE TABLE TICKETS (
-
-    id INTEGER PRIMARY KEY,
-    
-)

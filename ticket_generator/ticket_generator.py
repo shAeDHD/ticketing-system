@@ -145,7 +145,8 @@ def generate_JSON_file( generated_tickets ):
         print('Tickets have been created in the json_ticket_data.json file.')
     finally:
         outfile.close
-print( os.getcwd())
+        
+# print( os.getcwd())
           
 generate_tickets( int(input('Please input desired number of tickets: ')) )
 # NOTE if you wish to view the generated 
