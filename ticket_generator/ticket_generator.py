@@ -2,7 +2,7 @@ from random_address import real_random_address
 import datetime
 from datetime import timezone, timedelta
 import random 
-import os.path
+import os, sys
 import json
 # import argparse       # TODO - utilise ArgParse for bashrun program
 
@@ -128,6 +128,15 @@ def generate_tickets( number_of_tickets ):
                 activites_data.append(ticket_data)
     generate_JSON_file( activites_data )
 #   Export tickets as JSON data into file       
+# def generate_JSON_file( generated_tickets ):
+#     try:    
+#         json_data = json.dumps( generated_tickets )
+#         with open('json_ticket_data.json', 'w', encoding = 'utf-8') as outfile:
+#             outfile.write( json_data ) 
+#         print('Tickets have been created in the json_ticket_data.json file.')
+#     finally:
+#         outfile.close
+
 def generate_JSON_file( generated_tickets ):
     try:    
         json_data = json.dumps( generated_tickets )
@@ -136,8 +145,15 @@ def generate_JSON_file( generated_tickets ):
         print('Tickets have been created in the json_ticket_data.json file.')
     finally:
         outfile.close
+print( os.getcwd())
           
 generate_tickets( int(input('Please input desired number of tickets: ')) )
 # NOTE if you wish to view the generated 
 # data in the console, uncomment the line below (line 142)
 print( json.dumps( activites_data, indent=4 ))
+
+# __location__ = os.path.realpath(
+#     os.path.join(os.getcwd(), os.path.dirname(__file__)))
+
+# f = open(os.path.join(__location__, 'bundled-resource.jpg'))
+
