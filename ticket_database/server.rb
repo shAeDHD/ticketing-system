@@ -8,25 +8,27 @@ ActiveRecord::Base.establish_connection(
     :adapter => 'sqlite3',
     :database => 'database.db'
 )
+binding.pry
+
 class Metadata < ActiveRecord::Base
     def create
         # attr_accessor "shipping_address", "shipment_date", "category", "contacted_customer", "issue_type", "source", "status", "priority", "group_id", "agent_id", "requester", "product", "save"
     end
 end
-class TicketHeader < ActiveRecord::Base
+class Ticket_Header < ActiveRecord::Base
     def create
 
     end
 end
 class Note_Activity < ActiveRecord::Base
     def create
-        @Note_Activity = Note_Activity.new
+        # @Note_Activity = Note_Activity.new
         # attr_accessor "id", "type"
     end
 end
 class Other_Activity < ActiveRecord::Base
     def create
-        @Other_Activity = Other_Activity.new    
+        # @Other_Activity = Other_Activity.new    
     end
 end
 
@@ -38,14 +40,19 @@ puts ActiveRecord::Base.connection.tables
 
 ticket_data.map do | ticket_iteration |
     
-
+    iteration_th = Ticket_Header.new
+    iteration_th.performed_at = ticket_iteration.dig("performed_at"),
+    iteration_th.ticket_id = ticket_iteration.dig("ticket_id"),
+    iteration_th.performer_type = ticket_iteration.dig("performer_type")
+    iteration_th.performer_id = ticket_iteration.dig("performer_id")
+    iteration_th.save
 
     activity = ticket_iteration.fetch("activity")
 
     if activity.has_key?("note")
         note = Note_Activity.new 
         note.id = activity.dig( "note", "id" )
-        note.type = activity.dig( "note", "type" )
+        note.note_type = activity.dig( "note", "type" )
         note.save
     else
         other = Other_Activity.new 
@@ -72,4 +79,5 @@ ticket_data.map do | ticket_iteration |
 end
 
 binding.pry
+puts Other_Activity.first
 puts "Finished!"
