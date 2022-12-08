@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS metadatas;
 DROP TABLE IF EXISTS ticket_headers;
 DROP TABLE IF EXISTS note_activities;
-DROP TABLE IF EXISTS other_activites;
+DROP TABLE IF EXISTS other_activities;
 
 CREATE TABLE metadatas (
     id INTEGER PRIMARY KEY,
@@ -11,8 +11,9 @@ CREATE TABLE metadatas (
 );
 
 CREATE TABLE ticket_headers (
-    performed_at TEXT,
     id INTEGER PRIMARY KEY, 
+    performed_at TEXT,
+    ticket_id INTEGER,
     performer_type TEXT,
     performer_id INTEGER
 );

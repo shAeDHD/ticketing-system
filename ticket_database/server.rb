@@ -8,27 +8,20 @@ ActiveRecord::Base.establish_connection(
     :adapter => 'sqlite3',
     :database => 'database.db'
 )
-binding.pry
-
 class Metadata < ActiveRecord::Base
     def create
-        # attr_accessor "shipping_address", "shipment_date", "category", "contacted_customer", "issue_type", "source", "status", "priority", "group_id", "agent_id", "requester", "product", "save"
     end
 end
 class Ticket_Header < ActiveRecord::Base
     def create
-
     end
 end
 class Note_Activity < ActiveRecord::Base
-    def create
-        # @Note_Activity = Note_Activity.new
-        # attr_accessor "id", "type"
+    def create 
     end
 end
 class Other_Activity < ActiveRecord::Base
     def create
-        # @Other_Activity = Other_Activity.new    
     end
 end
 
@@ -38,6 +31,7 @@ ticket_data = JSON.load file
 file.close 
 puts ActiveRecord::Base.connection.tables
 
+######      MAPS JSON DATA INTO DB TABLES       ######
 ticket_data.map do | ticket_iteration |
     
     iteration_th = Ticket_Header.new
@@ -76,8 +70,6 @@ ticket_data.map do | ticket_iteration |
     # else
     #     nil
     # end
-end
+end     #   end JSON data mapping
 
-binding.pry
-puts Other_Activity.first
 puts "Finished!"
