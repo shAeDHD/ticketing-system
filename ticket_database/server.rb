@@ -10,7 +10,7 @@ ActiveRecord::Base.establish_connection(
 )
 class Metadata < ActiveRecord::Base
     def create
-        attr_accessor "shipping_address", "shipment_date", "category", "contacted_customer", "issue_type", "source", "status", "priority", "group_id", "agent_id", "requester", "product", "save"
+        # attr_accessor "shipping_address", "shipment_date", "category", "contacted_customer", "issue_type", "source", "status", "priority", "group_id", "agent_id", "requester", "product", "save"
     end
 end
 class TicketHeader < ActiveRecord::Base
@@ -20,7 +20,8 @@ class TicketHeader < ActiveRecord::Base
 end
 class Note_Activity < ActiveRecord::Base
     def create
-
+        @Note_Activity = Note_Activity.new
+        # attr_accessor "id", "type"
     end
 end
 class Other_Activity < ActiveRecord::Base
@@ -33,20 +34,18 @@ parent_file = File.expand_path("..", Dir.pwd)
 file = File.open(File.expand_path("#{parent_file}/ticket_generator/ticket_data.json"))
 ticket_data = JSON.load file
 file.close 
-# puts ticket_data    #   check == true
 puts ActiveRecord::Base.connection.tables
-raise 'hell'
 
 ticket_data.map do | ticket_iteration |
-    ticket = ticket_iteration
-    # ticket_header = Ticket_Header.new 
-    # puts ticket.fetch("activity")
-    activity = ticket.fetch("activity")
     
-    if ticket.fetch("activity") == "note"
+
+
+    activity = ticket_iteration.fetch("activity")
+
+    if activity.has_key?("note")
         note = Note_Activity.new 
-        note.id = ticket.dig( "activity", "note", "id" )
-        note.type = ticket.dig( "activity", "note", "type" )
+        note.id = activity.dig( "note", "id" )
+        note.type = activity.dig( "note", "type" )
         note.save
     else
         other = Other_Activity.new 
@@ -71,3 +70,6 @@ ticket_data.map do | ticket_iteration |
     #     nil
     # end
 end
+
+binding.pry
+puts "Finished!"

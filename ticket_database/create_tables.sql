@@ -4,6 +4,7 @@ DROP TABLE IF EXISTS note_activities;
 DROP TABLE IF EXISTS other_activites;
 
 CREATE TABLE metadatas (
+    id INTEGER PRIMARY KEY,
     start_at TEXT,
     end_at TEXT,
     activities_count INTEGER
@@ -17,11 +18,12 @@ CREATE TABLE ticket_headers (
 );
 
 CREATE TABLE note_activities (
-    id INTEGER,
-    type INTEGER
+    id INTEGER PRIMARY KEY,
+    note_type INTEGER
 );
 
 CREATE TABLE other_activities (
+    id INTEGER PRIMARY KEY,
     shipping_address TEXT,
     shipment_date TEXT,
     category TEXT,
