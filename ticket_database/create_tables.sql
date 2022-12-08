@@ -21,13 +21,13 @@ CREATE TABLE note_activities (
     type INTEGER
 );
 
-CREATE TABLE other_activites (
+CREATE TABLE other_activities (
     shipping_address TEXT,
     shipment_date TEXT,
     category TEXT,
-    contactedP_customer BOOLEAN,
+    contacted_customer BOOLEAN,
     issue_type TEXT,
-    souce INTEGER,
+    source INTEGER,
     status TEXT,
     priority INTEGER,
     group_id TEXT,
