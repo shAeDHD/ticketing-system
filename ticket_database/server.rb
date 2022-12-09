@@ -2,25 +2,47 @@ require 'sqlite3'
 require 'pry'
 require 'active_record'
 require 'json'
-require 'active_record'
 
 ActiveRecord::Base.establish_connection(
     :adapter => 'sqlite3',
     :database => 'database.db'
 )
 class Metadata < ActiveRecord::Base
+    has_one :ticket_header
+    has_many :other_activities, through: :ticket_header
+    has_one :note_activity, through: :ticket_header
     def create
+        # Where multiple activities share the same performer id,
+        # create a Metadata.new. That has a start_at 
+        # which is set as before the earliest 
+        # ticket.performed_at and ends at time.now.
+        # the activites_count is activites.length.
+        # metadata = Metadata.new
+        # metadata.activites_count =
+        puts "made to metadata new" 
+    end
+
+    def start_time(  )
+        # parse string time into date time
+
+        # take random number of hours/days from this date
     end
 end
 class Ticket_Header < ActiveRecord::Base
+    has_many :other_activities
+    belongs_to :metadata
     def create
     end
 end
 class Note_Activity < ActiveRecord::Base
+    belongs_to :ticket_header
+    # belongs_to :metadata, through: :ticket_header
     def create 
     end
 end
 class Other_Activity < ActiveRecord::Base
+    belongs_to :ticket_header
+    # belongs_to :metadata, through: :ticket_header
     def create
     end
 end
@@ -44,10 +66,20 @@ ticket_data.map do | ticket_iteration |
     activity = ticket_iteration.fetch("activity")
 
     if activity.has_key?("note")
+        #   Put Note data into database
         note = Note_Activity.new 
         note.id = activity.dig( "note", "id" )
         note.note_type = activity.dig( "note", "type" )
         note.save
+        #   For each note, we want to create a Metadata record as 
+        #   each chain of tickets can only have one note. To this, 
+        #   we will tie the 'performer_id' for easy identification.
+        metadatum = Metadata.new
+        metadatum.performer_id = ticket_iteration.dig("performer_id")
+        # metadatum.start_at = Metadata.start_time
+        puts ticket_iteration.fetch("performed_at")
+        metadatum.save
+
     else
         other = Other_Activity.new 
         other.shipping_address = activity.dig( "shipping_address" )
@@ -63,13 +95,11 @@ ticket_data.map do | ticket_iteration |
         other.requester = activity.dig( "requester" )
         other.product = activity.dig( "product" )
         other.save
-        # puts "no note"
-    end
-    # if ticket > 4
-    #     puts ticket 
-    # else
-    #     nil
-    # end
+        # if other.status == "Resolved" || other.status == "Closed"
+
+    end #   end else/if
 end     #   end JSON data mapping
 
+
+pry binding
 puts "Finished!"

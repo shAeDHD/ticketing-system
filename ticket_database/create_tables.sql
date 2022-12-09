@@ -1,10 +1,11 @@
-DROP TABLE IF EXISTS metadatas;
+DROP TABLE IF EXISTS metadata;
 DROP TABLE IF EXISTS ticket_headers;
 DROP TABLE IF EXISTS note_activities;
 DROP TABLE IF EXISTS other_activities;
 
-CREATE TABLE metadatas (
+CREATE TABLE metadata (
     id INTEGER PRIMARY KEY,
+    performer_id INTEGER,
     start_at TEXT,
     end_at TEXT,
     activities_count INTEGER

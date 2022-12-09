@@ -17,13 +17,15 @@ start_date    = end_date - timedelta( days=random.randint(4, 7) )
 response_time = start_date - timedelta(hours=random.randint(5, 12))
 shipment_date = start_date - timedelta( days=random.randint(3, 10), hours=random.randint(5, 10) )
 acc_opened    = shipment_date - timedelta( days=random.randint(1, 3), hours=random.randint(5, 10) )
+print(activites_data)
+
 
 #      Example Data     #
-issue_type          = [ "Incident", "Faulty", "Damaged on Arrival", "Warranty"] 
-group               = [ "Refund", "Delivery Issue", "Replacement", "Reparation" ]
-category            = [ "phone", "laptop", "pc", "other" ]
-progress            = [ "Pending", "Waiting for Third Party", "Waiting for Customer" ]
-products            = {
+issue_type = [ "Incident", "Faulty", "Damaged on Arrival", "Warranty"] 
+group = [ "Refund", "Delivery Issue", "Replacement", "Reparation" ]
+category = [ "phone", "laptop", "pc", "other" ]
+progress = [ "Pending", "Waiting for Third Party", "Waiting for Customer" ]
+products = {
     "phone" : [ "Mobile", "Landline" ],
     "laptop" : [ "Mac", "Acer", "Lenovo" ],
     "pc" : [ "Alienware", "Dell", "Custom" ],
@@ -63,8 +65,9 @@ def new_shipment_date():
     shipment_date = start_date - timedelta( days=random.randint(3, 10), hours=random.randint(5, 10) )
     return shipment_date.strftime("%d-%m-%Y %H:%M:%S %z")
 #   Randomised data for activty  
-def generate_activities():   
-    if "note" in activites_data[-1]["activity"]: 
+def generate_activities():
+    
+    if len(activites_data) == 0:   
         return {
             "shipping_address": real_random_address(),
             "shipment_date": f'{shipment_date.strftime( "%d-%m-%Y %H:%M:%S %z")}',
@@ -78,8 +81,9 @@ def generate_activities():
             "agent_id" : activites_data[-1]["performer_id"],
             "requester" : random.randint(149900,149998),
             "product" : random.choice(products[determined_category])
-        }  
+        }        
     else:
+           
         return {
             "shipping_address": activites_data[-1]["activity"]["shipping_address"],
             "shipment_date": activites_data[-1]["activity"]["shipment_date"],
@@ -93,9 +97,11 @@ def generate_activities():
             "agent_id": activites_data[-1]["performer_id"],
             "requester": activites_data[-1]["activity"]["requester"],
             "product": activites_data[-1]["activity"]["product"]
-        }
+        }  
 #   Ticket Constructor    
 def generate_tickets( number_of_tickets ): 
+    previous_ticket = activites_data[-1]
+    print(previous_ticket)
     if len(activites_data) < number_of_tickets:
         for iteration in range(number_of_tickets):
             global ticket_id 
@@ -127,6 +133,7 @@ def generate_tickets( number_of_tickets ):
                 }
                 activites_data.append(ticket_data)
     generate_JSON_file( activites_data )
+    
 #   Export tickets as JSON data into file       
 # def generate_JSON_file( generated_tickets ):
 #     try:    
@@ -158,3 +165,6 @@ print( json.dumps( activites_data, indent=4 ))
 
 # f = open(os.path.join(__location__, 'bundled-resource.jpg'))
 
+
+##      gets status of previous activity
+print(activites_data[-1]["activity"]["status"])
