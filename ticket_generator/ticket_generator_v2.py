@@ -45,8 +45,7 @@ def calculate_time( previous_ticket, ticket_id, ticket_closed ):
     if ticket_closed:
         start_time = datetime.datetime.now( timezone.utc ).replace( microsecond=0 )
         return start_time
-    elif previous_ticket["ticket_id"] == ticket_id and :
-        
+    elif previous_ticket["ticket_id"] == ticket_id and :    
         
 
 def response_time( ticket_started ):
