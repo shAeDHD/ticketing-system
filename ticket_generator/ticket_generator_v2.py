@@ -69,7 +69,6 @@ def determine_status( previous_ticket, performer_is_admin ):
 def new_note(): 
     note_id = note_id + 1
     
-    
 def assign_activity( previous_ticket, performer_id, performer_type, ticket_id, ticket_closed ):
     #   have if conditional where previous ticket is note than we make next ticket NOT note 
     if ticket_closed or len(ticket_data) == 1:
