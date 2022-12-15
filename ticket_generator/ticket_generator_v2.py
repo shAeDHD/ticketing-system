@@ -40,12 +40,16 @@ def calculate_time( previous_ticket, ticket_id, ticket_closed ):
     if previous_ticket == [] or ticket_closed:
         ticket_closed = False
         start_time = datetime.datetime.now( timezone.utc ).replace( microsecond=0 )
-        
     
-    if ticket_closed:
-        start_time = datetime.datetime.now( timezone.utc ).replace( microsecond=0 )
         return start_time
-    elif previous_ticket["ticket_id"] == ticket_id and :    
+    
+    if previous_ticket["activity"]["shipment_date"] in previous_ticket["activity"]:
+        return
+    
+    # if ticket_closed:
+    #     start_time = datetime.datetime.now( timezone.utc ).replace( microsecond=0 )
+    #     return start_time
+    # elif previous_ticket["ticket_id"] == ticket_id and :    
         
 
 def response_time( ticket_started ):
@@ -111,7 +115,7 @@ def generate_ticket( tickets_requested, previous_ticket, ticket_status ):
             if len(ticket_data) == 0 or ticket_closed:
                 ticket_id = ticket_id + 1
                 customer_id = customer_id + 1
-                initial_performed_at = calculate_time( previous_ticket, ticket_id, ticket_status )
+                initial_performed_at = calculate_time(previous_ticket, ticket_id, ticket_status).strftime("%d-%m-%Y %H:%M:%S %z")
                 ticket_data.append({
                     
                     "performed_at": initial_performed_at,
@@ -121,13 +125,13 @@ def generate_ticket( tickets_requested, previous_ticket, ticket_status ):
                     "activity": assign_activity( previous_ticket, customer_id, False, ticket_id, ticket_closed )
 
                 })
-                return generate_ticket( int(sys.argv[-1]), ticket_data[-1] )
+                return generate_ticket( int(sys.argv[-1]), ticket_data[-1],  ticket_status)
             
             elif previous_ticket["performer_type"] == "user":
                 admin_id = admin_ids[random.randint(0, 4)]
                 ticket_data.append({
                     
-                    "performed_at": calculate_time(),
+                    "performed_at": calculate_time(previous_ticket, ticket_id, ticket_status).strftime("%d-%m-%Y %H:%M:%S %z"),
                     "ticket_id": ticket_id,
                     "performer_type": "admin",
                     "performer_id": admin_id,
@@ -135,20 +139,20 @@ def generate_ticket( tickets_requested, previous_ticket, ticket_status ):
                     
                 })
     else:
-        
-        generate_JSON_file( ticket_data )
+        print("gen_ticket else")
+        # generate_JSON_file( ticket_data )
                 
     # generate_JSON_file( ticket_data )           
-def generate_JSON_file( generated_tickets ):
-    try:    
-        json_data = json.dumps( generated_tickets )
-        with open('json_ticket_data.json', 'w', encoding = 'utf-8') as outfile:
-            outfile.write( json_data ) 
-        print('Tickets have been created in the json_ticket_data.json file.')
-    finally:
-        outfile.close
+# def generate_JSON_file( generated_tickets ):
+#     try:    
+#         json_data = json.dumps( generated_tickets )
+#         with open('json_ticket_data.json', 'w', encoding = 'utf-8') as outfile:
+#             outfile.write( json_data ) 
+#         print('Tickets have been created in the json_ticket_data.json file.')
+#     finally:
+#         outfile.close
         
 generate_ticket( int(sys.argv[-1]) , ticket_data, ticket_closed )
 print( json.dumps( ticket_data, indent=4 ))
 
-.strftime("%d-%m-%Y %H:%M:%S %z")
+# .strftime("%d-%m-%Y %H:%M:%S %z")

@@ -100,8 +100,8 @@ def generate_activities():
         }  
 #   Ticket Constructor    
 def generate_tickets( number_of_tickets ): 
-    previous_ticket = activites_data[-1]
-    print(previous_ticket)
+    # previous_ticket = activites_data[-1]
+    # print(previous_ticket)
     if len(activites_data) < number_of_tickets:
         for iteration in range(number_of_tickets):
             global ticket_id 
