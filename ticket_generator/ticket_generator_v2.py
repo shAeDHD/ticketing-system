@@ -43,8 +43,13 @@ def calculate_time( previous_ticket, ticket_id, ticket_closed ):
     
         return start_time
     
-    if previous_ticket["activity"]["shipment_date"] in previous_ticket["activity"]:
-        return
+    elif previous_ticket["activity"]["shipment_date"] in previous_ticket["activity"]:
+        ticket_timelog = start_time + timedelta(hours=random.randint( 2, 6 ))
+        
+        return ticket_timelog
+    
+    else:
+        
     
     # if ticket_closed:
     #     start_time = datetime.datetime.now( timezone.utc ).replace( microsecond=0 )
