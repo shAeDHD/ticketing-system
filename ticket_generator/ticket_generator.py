@@ -73,7 +73,6 @@ def generate_activity( info, existing_tickets, iteration ):
             "requester": random.choice(info["admin_ids"]),
             "product": random.choice(info["products"][determined_category])
         }    
-        
         return activity_data
 
 def create_tickets( tickets_requested, tickets_made, info ):
@@ -104,31 +103,29 @@ def create_tickets( tickets_requested, tickets_made, info ):
                         }
                     }                                
                 }
-                generated_tickets.append(ticket)
+                tickets_made.append(ticket)
             elif iteration == 1:
                 info["ticket_timelog"] = info["ticket_timelog"] + timedelta(hours=random.randint(2, 6))
-                info["ticket_number"] = info["ticket_number"] + 1
                 
                 ticket = {                    
                     "performed_at": info["ticket_timelog"].strftime("%d-%m-%Y %H:%M:%S %z"),
                     "ticket_id": info["ticket_number"],
                     "performer_type": "user",
                     "performer_id": info["customer_id"],
-                    "activity": generate_activity( ticket_data, generated_tickets, iteration )        
+                    "activity": generate_activity( ticket_data, tickets_made, iteration )        
                 }
-                generated_tickets.append(ticket)
+                tickets_made.append(ticket)
             else:                
                 info["ticket_timelog"] = info["ticket_timelog"] + timedelta(hours=random.randint(2, 6))
-                info["ticket_number"] = info["ticket_number"] + 1
                 
                 ticket = {                    
                     "performed_at": info["ticket_timelog"].strftime("%d-%m-%Y %H:%M:%S %z"),
                     "ticket_id": info["ticket_number"],
                     "performer_type": "user",
                     "performer_id": info["customer_id"],
-                    "activity": generate_activity( ticket_data, generated_tickets, iteration )        
+                    "activity": generate_activity( ticket_data, tickets_made, iteration )        
                 }
-                generated_tickets.append(ticket)
+                tickets_made.append(ticket)
     generate_JSON_file( generated_tickets, tickets_requested )       
 
 def generate_JSON_file( generated_tickets, ticket_quantity ):
