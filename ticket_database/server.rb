@@ -8,9 +8,7 @@ ActiveRecord::Base.establish_connection(
     :database => 'database.db'
 )
 class Metadata < ActiveRecord::Base
-    has_one :ticket_header
-    has_many :other_activities, through: :ticket_header
-    has_one :note_activity, through: :ticket_header
+
     def create
         puts "made to metadata new" 
     end
@@ -19,20 +17,18 @@ class Metadata < ActiveRecord::Base
     end
 end
 class Ticket_Id < ActiveRecord::Base
-    has_many :other_activities
     
+    validates :ticket_id, uniqueness: true
     def create
     end
 end
 class Note_Ticket < ActiveRecord::Base
-    belongs_to :ticket_header
-    # belongs_to :metadata, through: :ticket_header
+    
     def create 
     end
 end
 class Other_Ticket < ActiveRecord::Base
-    belongs_to :ticket_header
-    # belongs_to :metadata, through: :ticket_header
+
     def create
     end
 end
@@ -50,10 +46,13 @@ Note_Ticket.destroy_all
 Other_Ticket.destroy_all
 
 ticket_data.map do | ticket_iteration |
+    
+    
     ticket_id = Ticket_Id.new 
     ticket_id.ticket_id = ticket_iteration.dig("ticket_id")
     ticket_id.save
     puts ticket_iteration.dig("ticket_id")
+    
 
     if ticket_iteration.dig("activity").has_key?("note")
         #   Put Note data into database
@@ -77,7 +76,7 @@ ticket_data.map do | ticket_iteration |
         other.source = ticket_iteration.dig("activity", "source" )
         other.status = ticket_iteration.dig("activity", "status" )
         other.priority = ticket_iteration.dig("activity", "priority" )
-        other.group_id = ticket_iteration.dig("activity", "group_id" )
+        other.group_type = ticket_iteration.dig("activity", "group" )
         other.agent_id = ticket_iteration.dig("activity", "agent_id" )
         other.requester = ticket_iteration.dig("activity", "requester" )
         other.product = ticket_iteration.dig("activity", "product" )

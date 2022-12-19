@@ -40,7 +40,7 @@ CREATE TABLE other_tickets (
     source INTEGER,
     status TEXT,
     priority INTEGER,
-    group_id TEXT,
+    group_type TEXT,
     agent_id INTEGER,
     requester INTEGER,
     product TEXT
