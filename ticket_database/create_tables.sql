@@ -11,23 +11,23 @@ CREATE TABLE metadata (
     activities_count INTEGER
 );
 
-CREATE TABLE tickets (
+CREATE TABLE ticket_ids (
     id INTEGER PRIMARY KEY,
     ticket_id INTEGER,
     activities_assigned INTEGER
-)
+);
 
 
-CREATE TABLE note_ticket (
+CREATE TABLE note_tickets (
     id INTEGER PRIMARY KEY, 
     performed_at TEXT,
     performer_type TEXT,
     performer_id INTEGER,
-    note_id INTEGER
+    note_id INTEGER,
     note_type INTEGER
 );
 
-CREATE TABLE other_ticket (
+CREATE TABLE other_tickets (
     id INTEGER PRIMARY KEY, 
     performed_at TEXT,
     performer_type TEXT,

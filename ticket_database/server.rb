@@ -20,7 +20,7 @@ class Metadata < ActiveRecord::Base
 end
 class Ticket < ActiveRecord::Base
     has_many :other_activities
-    belongs_to :metadata
+    
     def create
     end
 end
@@ -43,35 +43,39 @@ ticket_data = JSON.load file
 file.close 
 puts ActiveRecord::Base.connection.tables
 
-######      MAPS JSON DATA INTO DB TABLES       ######
+######      MAPS JSON SEED DATA INTO DB TABLES       ######
+# FIRST. delete all pre-existing to avoid doubling up & errors.
+Note_Ticket.destroy_all
+Other_Ticket.destroy_all
+
 ticket_data.map do | ticket_iteration |
 
-    if ticket_iteration.has_key?("note")
+    if ticket_iteration.dig("activity").has_key?("note")
         #   Put Note data into database
-        note = Note.new 
-        note.performed_at = ticket_iteration.dig("performed_at"),
+        note = Note_Ticket.new 
+        note.performed_at = ticket_iteration.dig("performed_at")
         note.performer_type = ticket_iteration.dig("performer_type")
         note.performer_id = ticket_iteration.dig("performer_id")
-        note.id = activity.dig( "note", "id" )
-        note.note_type = activity.dig( "note", "type" )
+        note.note_id = ticket_iteration.dig("activity", "note", "id" )
+        note.note_type = ticket_iteration.dig("activity", "note", "type" )
         note.save
     else
-        other = Other.new 
+        other = Other_Ticket.new 
         other.performed_at = ticket_iteration.dig("performed_at"),
         other.performer_type = ticket_iteration.dig("performer_type")
         other.performer_id = ticket_iteration.dig("performer_id")
-        other.shipping_address = activity.dig( "shipping_address" )
-        other.shipment_date = activity.dig( "shipment_date" )
-        other.category = activity.dig( "category" )
-        other.contacted_customer = activity.dig( "contacted_customer" )
-        other.issue_type = activity.dig( "issue_type" )
-        other.source = activity.dig( "source" )
-        other.status = activity.dig( "status" )
-        other.priority = activity.dig( "priority" )
-        other.group_id = activity.dig( "group_id" )
-        other.agent_id = activity.dig( "agent_id" )
-        other.requester = activity.dig( "requester" )
-        other.product = activity.dig( "product" )
+        other.shipping_address = ticket_iteration.dig("activity", "shipping_address" )
+        other.shipment_date = ticket_iteration.dig("activity", "shipment_date" )
+        other.category = ticket_iteration.dig("activity", "category" )
+        other.contacted_customer = ticket_iteration.dig("activity", "contacted_customer" )
+        other.issue_type = ticket_iteration.dig("activity", "issue_type" )
+        other.source = ticket_iteration.dig("activity", "source" )
+        other.status = ticket_iteration.dig("activity", "status" )
+        other.priority = ticket_iteration.dig("activity", "priority" )
+        other.group_id = ticket_iteration.dig("activity", "group_id" )
+        other.agent_id = ticket_iteration.dig("activity", "agent_id" )
+        other.requester = ticket_iteration.dig("activity", "requester" )
+        other.product = ticket_iteration.dig("activity", "product" )
         other.save
 
     end #   end else/if
