@@ -18,7 +18,7 @@ class Metadata < ActiveRecord::Base
     def start_time(  )
     end
 end
-class Ticket < ActiveRecord::Base
+class Ticket_Id < ActiveRecord::Base
     has_many :other_activities
     
     def create
@@ -45,10 +45,15 @@ puts ActiveRecord::Base.connection.tables
 
 ######      MAPS JSON SEED DATA INTO DB TABLES       ######
 # FIRST. delete all pre-existing to avoid doubling up & errors.
+Ticket_Id.destroy_all
 Note_Ticket.destroy_all
 Other_Ticket.destroy_all
 
 ticket_data.map do | ticket_iteration |
+    ticket_id = Ticket_Id.new 
+    ticket_id.ticket_id = ticket_iteration.dig("ticket_id")
+    ticket_id.save
+    puts ticket_iteration.dig("ticket_id")
 
     if ticket_iteration.dig("activity").has_key?("note")
         #   Put Note data into database
@@ -61,7 +66,7 @@ ticket_data.map do | ticket_iteration |
         note.save
     else
         other = Other_Ticket.new 
-        other.performed_at = ticket_iteration.dig("performed_at"),
+        other.performed_at = ticket_iteration.dig("performed_at")
         other.performer_type = ticket_iteration.dig("performer_type")
         other.performer_id = ticket_iteration.dig("performer_id")
         other.shipping_address = ticket_iteration.dig("activity", "shipping_address" )
@@ -77,7 +82,6 @@ ticket_data.map do | ticket_iteration |
         other.requester = ticket_iteration.dig("activity", "requester" )
         other.product = ticket_iteration.dig("activity", "product" )
         other.save
-
     end #   end else/if
 end     #   end JSON data mapping
 

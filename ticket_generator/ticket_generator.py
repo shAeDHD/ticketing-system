@@ -131,7 +131,7 @@ def create_tickets( tickets_requested, tickets_made, info ):
 def generate_JSON_file( generated_tickets, ticket_quantity ):
     try:
         json_data = (json.dumps(generated_tickets[0:ticket_quantity], indent=4))
-        with open("json_ticket_data.json", "w", encoding = "utf-8") as outfile:
+        with open("ticket_data.json", "w", encoding = "utf-8") as outfile:
             outfile.write( json_data )
     finally:
         outfile.close
